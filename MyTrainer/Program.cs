@@ -22,7 +22,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString).EnableSensitiveDataLogging().LogTo(Console.WriteLine, LogLevel.Information));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5000);
+});
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
