@@ -1,0 +1,274 @@
+﻿@using System.Text.Json
+
+@model User;
+
+<style>
+	body {
+		background-color: #F4F6F8;
+		color: #1E2A38;
+		font-family: 'Segoe UI', sans-serif;
+	}
+
+	.btn-primary {
+		background-color: #00C2CB;
+		border-color: #00C2CB;
+		color: white;
+	}
+
+		.btn-primary:hover {
+			background-color: #009aa1;
+			border-color: #009aa1;
+		}
+
+	.card {
+		background-color: white;
+		border: 1px solid #ddd;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+	}
+
+	.header {
+		background-color: #1E2A38;
+		color: white;
+		padding: 1rem;
+	}
+
+	a {
+		color: #00C2CB;
+	}
+</style>
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<link href="~/css/profile.css" rel="stylesheet" />
+</head>
+<body>
+	@{
+		var toastMessage = TempData["FailureWeight"]?.ToString();
+	}
+	<div class="tab-content mt-3">
+		<div class="tab-pane fade show active" id="personal">
+			<div class="container mt-4">
+				<h4 class="mb-3">Личные данные</h4>
+
+				<div class="container mt-5">
+					<h3>Редактирование профиля</h3>
+					<div class="row g-3 mt-4">
+
+						<!-- Карточка: Имя и Фамилия -->
+						<div class="col-md-6">
+							<div class="card shadow-sm clickable-card" data-bs-toggle="modal" data-bs-target="#nameModal">
+								<div class="card-body">
+									<h5 class="card-title">Имя и Фамилия <i class="bi bi-pencil float-end"></i></h5>
+									<p class="card-text">@Model.name @Model.lastname </p>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="nameModal" tabindex="-1" aria-labelledby="ChangeName" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<form asp-controller="Profile" asp-action="ChangeName" method="post">
+										<div class="modal-header">
+											<h5 class="modal-title" id="ChangeName">Обновите данные</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+										</div>
+										<div class="modal-body">
+											<div class="mb-3">
+												<label for="nameChange" class="form-label">Как вас зовут</label>
+												<input type="text" class="form-control" id="nameChange" name="nameChange" value="@Model.name" />
+											</div>
+
+											<div class="mb-3">
+												<label for="lastNameChange" class="form-label">Ваша фамилия</label>
+												<input type="text" class="form-control" id="lastNameChange" name="lastNameChange" value="@Model.lastname" />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+											<button type="submit" class="btn btn-success">Сохранить</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!-- Карточка: Дата рождения -->
+						<div class="col-md-6">
+							<div class="card shadow-sm clickable-card" data-bs-toggle="modal" data-bs-target="#birthModal">
+								<div class="card-body">
+									<h5 class="card-title">Дата рождения <i class="bi bi-pencil float-end"></i></h5>
+									<p class="card-text">@Model.birthDay.ToString("M", new System.Globalization.CultureInfo("ru-RU"))</p>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="birthModal" tabindex="-1" aria-labelledby="ChangeBirth" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<form asp-controller="Profile" asp-action="ChangeBirth" method="post">
+										<div class="modal-header">
+											<h5 class="modal-title" id="ChangeBirth">Обновите данные</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+										</div>
+										<div class="modal-body">
+											<div class="mb-3">
+												<label for="changeBirth" class="form-label">Дата рождения</label>
+												<input type="date" class="form-control" id="changeBirth" name="changeBirth" value="@Model.birthDay.ToString("yyyy-MM-dd")" />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+											<button type="submit" class="btn btn-success">Сохранить</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!-- Карточка: Вес -->
+						<div class="col-md-6">
+							@section Scripts {
+								<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+								@if (TempData["FailureWeight"] != null)
+								{
+									var alertText = JsonSerializer.Serialize(TempData["FailureWeight"]);
+									<script>
+										Swal.fire({
+											icon: 'warning',
+											title: 'Уведомление',
+											text: @Html.Raw(alertText)
+													});
+									</script>
+								}
+								@if (TempData["DataSuccess"] != null)
+								{
+									var alertText = JsonSerializer.Serialize(TempData["DataSuccess"]);
+									<script>
+										Swal.fire({
+											icon: 'success',
+											title: 'Уведомление',
+											text: @Html.Raw(alertText)
+																							});
+									</script>
+								}
+							}
+							<div class="card shadow-sm clickable-card" data-bs-toggle="modal" data-bs-target="#goalsModal">
+								<div class="card-body">
+									<h5 class="card-title">Вес <i class="bi bi-pencil float-end"></i></h5>
+									<p class="card-text">Начальный: @Model.startWeight кг / Желаемый: @Model.goalWeight кг</p>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="goalsModal" tabindex="-1" aria-labelledby="ChangeGoals" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<form asp-controller="Profile" asp-action="ChangeGoals" method="post">
+										<div class="modal-header">
+											<h5 class="modal-title" id="ChangeGoals">Обновите данные</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+										</div>
+										<div class="modal-body">
+											<div class="mb-3">
+												<label for="startChange" class="form-label">Ваш начальный вес</label>
+												<input type="number" step="0.1" class="form-control" id="startChange" name="startChange" value="@Model.startWeight" />
+											</div>
+
+											<div class="mb-3">
+												<label for="goalChange" class="form-label">Ваша цель</label>
+												<input type="number" step="0.1" class="form-control" id="goalChange" name="goalChange" value="@Model.goalWeight" />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+											<button type="submit" class="btn btn-success">Сохранить</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<!-- Карточка: Email -->
+						<div class="col-md-6">
+							<div class="card shadow-sm clickable-card" data-bs-toggle="modal" data-bs-target="#emailModal">
+								<div class="card-body">
+									<h5 class="card-title">Электронная почта <i class="bi bi-pencil float-end"></i></h5>
+									<p class="card-text">@Model.Email</p>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="emailModal" tabindex="-1" aria-labelledby="ChangeEmail" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<form asp-controller="Profile" asp-action="ChangeEmail" method="post">
+										<div class="modal-header">
+											<h5 class="modal-title" id="ChangeEmail">Обновите данные</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+										</div>
+										<div class="modal-body">
+											<div class="mb-3">
+												<label for="changeEmail" class="form-label">Дата рождения</label>
+												<input type="email" class="form-control" id="changeEmail" name="changeEmail" value="@Model.Email" />
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+											<button type="submit" class="btn btn-success">Сохранить</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+
+						<!-- Карточка: Телефон -->
+						<div class="col-md-6">
+							<div class="card shadow-sm clickable-card" data-bs-toggle="modal" data-bs-target="#phoneModal">
+								<div class="card-body">
+									<h5 class="card-title">Телефон <i class="bi bi-pencil float-end"></i></h5>
+									<p class="card-text">@Model.PhoneNumber</p>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="phoneModal" tabindex="-1" aria-labelledby="ChangePhone" aria-hidden="true">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<form asp-controller="Profile" asp-action="ChangePhone" method="post">
+										<div class="modal-header">
+											<h5 class="modal-title" id="ChangePhone">Обновите данные</h5>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+										</div>
+										<div class="modal-body">
+											<div class="mb-3">
+												<label for="changePhone" class="form-label">Новый номер телефона</label>
+												<input type="text" id="phone" class="form-control" name="changePhone" />
+											</div>
+											
+										</div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+											<button type="submit" class="btn btn-success">Сохранить</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const input = document.getElementById("phone");
+				const mask = new Inputmask("+7 (999) 999-99-99");
+				mask.mask(input);
+			});
+		</script>
+		@* <script>
+			$(document).ready(function () {
+				$("#phone").inputmask("+7 (999) 999-99-99");
+			});
+		</script> *@
+</body>

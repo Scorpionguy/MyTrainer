@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model LoginViewModel
+<head>
+
+</head>
+<body>
+    <div b-aa6kh5l8jn="" class="container">
+        <main b-aa6kh5l8jn="" role="main" class="pb-3">
+
+
+            <h1>Войти в учетную запись</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <section>
+                        <form asp-action="Login" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            @* сделать чтоб всё поцентру а другие способы авторизации под кнопкой *@
+                            <div class="mb-3">
+                                <label asp-for="Email" class="form-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Password" class="form-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-check mb-3">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label"></label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Войти</button>
+                        </form>
+                    </section>
+                </div>
+                <div class="col-md-6 col-md-offset-2">
+                    <section>
+                        <h3>Использовать сторонний сервис для авторизации.</h3>
+                        <hr>
+                        <div>
+                           @*  <p>
+                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
+                                    article
+                                    about setting up this ASP.NET application to support logging in via external services
+                                </a>.
+                            </p> *@
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+
+        </main>
+    </div>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js?v=hRQyftXiu1lLX2P9Ly9xa4gHJgLeR1uGN5qegUobtGo"></script>
+    <script src="/Identity/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="/Identity/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script type="text/javascript" src="/_vs/browserLink" async="async" id="__browserLink_initializationData" data-requestid="caa09628d7d4484fb691e42c27b81d29" data-requestmappingfromserver="false" data-connecturl="http://localhost:61732/313a758e427348fca8d89a35dc4ba663/browserLink"></script>
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+
+</body>

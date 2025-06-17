@@ -1,0 +1,136 @@
+﻿:root {
+    --primary: #336699;
+    --primary-hover: #2b5780;
+    --secondary: #FFC107;
+    --accent: #E91E63;
+    --danger: #FFC107;
+    --background: #F8F9FA;
+    --nav-background: rgba(94, 124, 226, 0.8);
+    --text: #212529;
+    --fade-light: rgba(255, 255, 255, 0.9);
+    --success: #28A745;
+    --warning: #FFC107;
+    --error: #DC3545;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+.footer {
+    padding: 1rem 0;
+    text-align: center;
+    position: static !important;
+}
+/* Навигация */
+.custom-navbar {
+    background-color: var(--nav-background);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+    .custom-navbar .nav-link {
+        color: var(--fade-light);
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+        .custom-navbar .nav-link:hover,
+        .custom-navbar .nav-link.active {
+            color: var(--primary);
+        }
+
+/* Кнопки */
+.btn {
+    padding: 10px 20px;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary{
+    background-color: var(--primary);
+    color: var(--fade-light);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+    .btn-primary:hover, btn-outline-primary-custom:hover {
+        background-color: var(--primary-hover);
+        color: white;
+        border-color: var(--primary-hover); 
+    }
+
+.btn-secondary {
+    background-color: var(--secondary);
+    color: var(--text);
+}
+
+    .btn-secondary:hover {
+        background-color: var(--secondary); /* можно заменить на --accent или добавить --secondary-dark */
+    }
+
+.btn-danger {
+    background-color: var(--error);
+    color: var(--fade-light);
+}
+
+    .btn-danger:hover {
+        background-color: var(--error); /* тут можно использовать --danger, если вы его поправите под «тёмный» */
+    }
+.logout-btn {
+    /*тёмно-серый, как nav-link */
+    background-color: transparent;
+    border: none;
+    font-weight: 500;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+    .logout-btn:hover {
+        color: var(--danger);
+        background-color: rgba(220, 53, 69, 0.1); /* лёгкий красный фон */
+        border-radius: 4px;
+        cursor: pointer;
+    }
+/* Карточки */
+.card {
+    background: var(--fade-light);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Прогресс-бар */
+.progress {
+    background-color: var(--background);
+    border-radius: 12px;
+    overflow: hidden;
+    height: 24px;
+}
+
+.progress-bar {
+    background-color: var(--primary);
+    text-align: center;
+    color: var(--fade-light);
+    font-weight: bold;
+}
+.progress-danger {
+    background-color: #E91E63;
+    text-align: center;
+    color: var(--fade-light);
+    font-weight: bold;
+}
+
+/* Адаптивные карточки */
+@media (max-width: 768px) {
+    .card {
+        padding: 16px;
+    }
+}

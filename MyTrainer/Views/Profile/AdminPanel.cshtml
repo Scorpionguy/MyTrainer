@@ -1,0 +1,131 @@
+﻿@model AdminDashboardViewModel
+@{
+}
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="~/css/profile.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="~/css/profile.css" rel="stylesheet" />
+
+</head>
+<body>
+    <h2 class="mb-4">Уведомления о неподтвержденных аккаунтах</h2>
+
+    @if (Model.Users.Any())
+    {
+        <ul class="list-group mb-5">
+            @foreach (var user in Model.Users)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @user.Email
+                    <form method="post" asp-action="ConfirmUser" asp-route-id="@user.Id" class="d-inline">
+                        <button type="submit" class="btn btn-primary btn-sm">Подтвердить</button>
+                    </form>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-info">Нет неподтверждённых пользователей.</div>
+    }
+
+    <h2 class="mb-4">Список упражнений</h2>
+    @*--Модальное окно--*@
+    <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="editExerciseForm" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editExerciseModalLabel">Редактировать упражнение</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="Id" id="editExerciseId" />
+                        <div class="mb-3">
+                            <label for="editExerciseName" class="form-label">Название</label>
+                            <input type="text" class="form-control" id="editExerciseName" name="Name" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editExerciseDescription" class="form-label">Описание</label>
+                            <textarea class="form-control" id="editExerciseDescription" name="Description" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editExerciseCal" class="form-label">Калории</label>
+                            <input type="number" class="form-control" id="editExerciseCal" name="CalBurned" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editTargetMuscle" class="form-label">Основная мышца</label>
+                            <input type="text" class="form-control" id="editTargetMuscle" name="target" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHowToUrl" class="form-label">Ссылка на выполнение</label>
+                            <input type="text" class="form-control" id="editHowToUrl" name="url" required />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var exercise in Model.Exercises)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@exercise.name</h5>
+                        <p class="card-text">@exercise.description</p>
+                        <button class="btn btn-primary edit-btn"
+                                data-id="@exercise.id"
+                                data-name="@exercise.name"
+                                data-description="@exercise.description"
+                                data-cal="@exercise.standatdCal"
+                                data-howToUrl="@exercise.howToUrl"
+                                data-targetMuscle="@exercise.targetMuscle">
+                            Редактировать
+                        </button>
+                        <button class="btn btn-danger delete-btn"
+                                data-id="@exercise.id">
+                            Удалить
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.edit-btn');
+        const modal = new bootstrap.Modal(document.getElementById('editExerciseModal'));
+
+        editButtons.forEach(btn => {
+            btn.addEventListener('click', function () {
+                const id = btn.dataset.id;
+                const name = btn.dataset.name;
+                const description = btn.dataset.description;
+                const cal = btn.dataset.cal;
+                const url = btn.dataset.howtourl;
+                const target = btn.dataset.targetmuscle;
+
+                document.getElementById('editExerciseId').value = id;
+                document.getElementById('editExerciseName').value = name;
+                document.getElementById('editExerciseDescription').value = description;
+                document.getElementById('editExerciseCal').value = cal;
+                document.getElementById('editTargetMuscle').value = target;
+                document.getElementById('editHowToUrl').value = url;
+
+                modal.show();
+            });
+        });
+    });
+</script>
