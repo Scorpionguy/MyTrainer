@@ -7,10 +7,25 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        (function () {
+            const getCookie = (name) => {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            };
+
+            const userTheme = getCookie("theme");
+            if (userTheme === "dark") {
+                document.documentElement.classList.add("dark-theme");
+            } else {
+                document.documentElement.classList.remove("dark-theme");
+            }
+        })();
+    </script>
     <link href="~/css/profile.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="~/css/profile.css" rel="stylesheet" />
-
+    <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
 </head>
 <body>
     <h2 class="mb-4">Уведомления о неподтвержденных аккаунтах</h2>
@@ -39,7 +54,7 @@
     <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="editExerciseForm" method="post">
+                <form id="EditExercise" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editExerciseModalLabel">Редактировать упражнение</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
@@ -68,8 +83,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Сохранить</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                        <button type="button" class="btn btn-outline-primary-custom" data-bs-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
                     </div>
                 </form>
             </div>

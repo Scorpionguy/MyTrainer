@@ -5,10 +5,11 @@ namespace MyTrainer.Models
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Введите email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage ="Неверный формат почты")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Введите пароль")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage ="Пароль должен содержать минимум 6 символов")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

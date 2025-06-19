@@ -226,7 +226,7 @@ namespace MyTrainer.Controllers
             }
             _context.SaveChanges();
 
-            return Json(new { redirectUrl = Url.Action("Main", "Profile") });
+            return Json(new { redirectUrl = Url.Action("Exercise", "Profile") });
 
 
         }
@@ -396,6 +396,9 @@ namespace MyTrainer.Controllers
 			}
             return _user;
 		}
+
+        [Authorize]
+        
         public IActionResult AdminPanel()
         {
             var model = new AdminDashboardViewModel
@@ -432,12 +435,6 @@ namespace MyTrainer.Controllers
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("AdminPanel");
-        }
-
-        public IActionResult EditExercise(int id)
-        {
-            var exercise = _context.Exercise.Find(id);
-            return View(exercise);
         }
 
         [HttpPost]

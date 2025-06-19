@@ -22,10 +22,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString).EnableSensitiveDataLogging().LogTo(Console.WriteLine, LogLevel.Information));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.ListenAnyIP(5000);
-});
+//builder.WebHost.ConfigureKestrel(serverOptions =>
+//{
+//    serverOptions.ListenAnyIP(5000);
+//});
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false;
@@ -33,7 +33,8 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders()
 .AddRoles<IdentityRole>()
-.AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<User, IdentityRole>>();
+.AddClaimsPrincipalFactory<UserClaimsPrincipalFactory<User, IdentityRole>>()
+.AddErrorDescriber<RussianIdentityErrorDescriber>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.ConfigureApplicationCookie(options =>
