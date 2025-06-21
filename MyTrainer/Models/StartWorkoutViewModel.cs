@@ -19,6 +19,7 @@
         public string? Description { get; set; }
         public string? HowToUrl { get; set; }
         public double? calBurned { get; set; }
+        public bool confirmed { get;set; }
     }
     public class ExerciseSetInputModel
     {

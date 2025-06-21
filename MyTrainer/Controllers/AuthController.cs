@@ -27,7 +27,12 @@ namespace MyTrainer.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-
+                if (result.IsNotAllowed)
+                {
+                    ModelState.AddModelError(string.Empty,
+                        "Ваша почта не подтверждена. Пожалуйста, подождите подтверждения.");
+                    return View(model);
+                }
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Personal", "Profile");
@@ -63,8 +68,8 @@ namespace MyTrainer.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return RedirectToAction("Personal", "Profile");
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    return RedirectToAction("Help", "Home");
                 }
 
                 foreach (var error in result.Errors)
@@ -80,7 +85,7 @@ namespace MyTrainer.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Help", "Home");
         }
     }
 }

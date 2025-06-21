@@ -37,6 +37,13 @@ body {
 canvas {
     background: var(--fade-light);
 }
+.form-label, .modal-content {
+    background: var(--background);
+    color: var(--text);
+}
+.nav-item {
+    list-style: none;
+}
 .custom-font {
     background: var(--fade-light);
     color: var(--text);
@@ -44,7 +51,17 @@ canvas {
 .list-group-item {
     background-color: var(--fade-light);
     color: var(--text);
+
 }
+    .list-group-item .stretched-link {
+        z-index: 1; /* по умолчанию в BS это 1, но переопределяем явно */
+    }
+
+    /* Кнопки поднимаем выше */
+    .list-group-item .btn {
+        position: relative;
+        z-index: 2;
+    }
 .table-custom {
     width: 100%;
     border-collapse: collapse;

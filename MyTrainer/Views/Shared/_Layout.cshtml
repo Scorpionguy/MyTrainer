@@ -42,9 +42,19 @@
     </header> 
     @if (ViewData["HideNavigation"] == null || !(bool)ViewData["HideNavigation"])
     {
-        <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <nav class="navbar navbar-expand-lg fixed-top custom-navbar dark">
             <div class="container">
-                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">🏋️ Мой Тренер</a>
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Help">🏋️ Мой Тренер</a>
+                <li class="nav-item" onclick="toggleTheme()">
+                    <a class="btn">🌙/☀️</a>
+                </li>
+
+                <script>
+                    function toggleTheme() {
+                        const isDark = document.documentElement.classList.toggle("dark-theme");
+                        document.cookie = `theme=${isDark ? "dark" : "light"}; path=/; max-age=31536000`;
+                    }
+                </script>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -72,16 +82,7 @@
                     <ul class="navbar-nav ms-auto">
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item" onclick="toggleTheme()">
-                                <a class="btn">🌙/☀️</a>
-                            </li>
-
-                            <script>
-                                function toggleTheme() {
-                                    const isDark = document.documentElement.classList.toggle("dark-theme");
-                                    document.cookie = `theme=${isDark ? "dark" : "light"}; path=/; max-age=31536000`; // на год
-                                }
-                            </script>
+                            
                             <li class="nav-item">
                                 <a asp-controller="Profile" asp-action="Personal" class="nav-link">Профиль</a>
                             </li>

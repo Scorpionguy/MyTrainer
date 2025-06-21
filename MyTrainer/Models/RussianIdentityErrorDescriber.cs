@@ -73,7 +73,7 @@ namespace MyTrainer.Models
             return new IdentityError
             {
                 Code = nameof(InvalidEmail),
-                Description = "Эта почта неправильная!"
+                Description = "Эта учетная запись не подтверждена!"
             };
         }
         public override IdentityError DuplicateEmail(string email)
@@ -108,5 +108,6 @@ namespace MyTrainer.Models
                 Description = "Эта почта уже используется!" 
             };
         }
+        
     }
 }

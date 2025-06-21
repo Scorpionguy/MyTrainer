@@ -30,7 +30,7 @@
 <body>	
 		<div class="container mt-5">
 			<h4 class="mb-3">Скачать отчёт о тренировках</h4>
-			<form asp-action="GetWeightChartData" class="row g-3 align-items-end">
+			<div class="row g-3 align-items-end">
 				<div class="col-md-4">
 					<label for="startDate" class="form-label">Начальная дата</label>
 				<input type="date" class="form-control" id="startDate" name="startDate" value="@DateTime.UtcNow.AddMonths(-1).ToString("yyyy-MM-dd")" required>
@@ -40,9 +40,9 @@
 				<input type="date" class="form-control" id="endDate" name="endDate" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" required>
 				</div>
 				<div class="col-md-4">
-				<button type="submit" class="btn btn-primary w-100">Скачать отчёт</button>
+				<button type="submit" onclick="downloadImage()" class="btn btn-primary w-100">Скачать отчёт</button>
 				</div>
-			</form>
+			</div>
 		</div>
 </body>
 <div class="mt-5">
@@ -83,4 +83,23 @@
 
 	const formatDate = d => d.toISOString().split('T')[0];
 	loadChart(formatDate(thirtyDaysAgo), formatDate(today));
+</script>
+<script>
+	// 1. найдём canvas
+	const canvas = document.querySelector("canvas");
+
+	// 2. «сохранить» как файл
+	function downloadImage() {
+		canvas.toBlob(blob => {
+			const url = URL.createObjectURL(blob);
+			const a = document.createElement("a");
+			a.href = url;
+			a.download = "chart.png";   // или chart.jpg
+			document.body.append(a);
+			a.click();
+			a.remove();
+			URL.revokeObjectURL(url);
+		}, "image/png", 1);
+	}
+
 </script>

@@ -48,6 +48,51 @@
     {
         <div class="alert alert-info">Нет неподтверждённых пользователей.</div>
     }
+    <h2 class="mb-4">Уведомления о неподтвержденных упражнениях</h2>
+
+    @if (Model.NotConfirmed.Any())
+    {
+        <ul class="list-group">
+            @foreach (var exercise in Model.NotConfirmed)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center position-relative">
+                    <div>
+                        @exercise.name, @exercise.description, @exercise.targetMuscle
+                    </div>
+
+                    <!-- ссылка всё ещё «растягивается» на весь <li>, но теперь ниже кнопок -->
+                    <a href="@exercise.howToUrl"
+                       class="stretched-link"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                    </a>
+
+                    <div class="d-flex gap-2 ms-auto">
+                        <form method="post"
+                              asp-action="ConfirmExercise"
+                              asp-route-id="@exercise.id">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Подтвердить
+                            </button>
+                        </form>
+
+                        <form method="post"
+                              asp-controller="Profile"
+                              asp-action="DeleteNotConfirm">
+                            <input type="hidden" value="@exercise.id" name="id" />
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                Удалить
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-info">Нет неподтверждённых упражнений.</div>
+    }
 
     <h2 class="mb-4">Список упражнений</h2>
     @*--Модальное окно--*@
@@ -98,22 +143,25 @@
                     <div class="card-body">
                         <h5 class="card-title">@exercise.name</h5>
                         <p class="card-text text-truncate w-75">@exercise.description</p>
-                        <button class="btn btn-primary edit-btn"
-                                data-id="@exercise.id"
-                                data-name="@exercise.name"
-                                data-description="@exercise.description"
-                                data-cal="@exercise.standatdCal"
-                                data-howToUrl="@exercise.howToUrl"
-                                data-targetMuscle="@exercise.targetMuscle">
-                            Редактировать
-                        </button>
-                        <form id="deleteExercise" asp-controller="Profile" asp-action="DeleteExercise">
-                            <input hidden value="@exercise.id" name="id"/>
-                            <button type="submit" class="btn btn-danger delete-btn"
-                                    data-id="@exercise.id" name="id">
-                                Удалить
+                        <div class="buttons d-flex gap-2">
+                            <button class="btn btn-primary edit-btn"
+                                    data-id="@exercise.id"
+                                    data-name="@exercise.name"
+                                    data-description="@exercise.description"
+                                    data-cal="@exercise.standatdCal"
+                                    data-howToUrl="@exercise.howToUrl"
+                                    data-targetMuscle="@exercise.targetMuscle">
+                                Редактировать
                             </button>
-                        </form>
+                            <form id="deleteExercise" asp-controller="Profile" asp-action="DeleteExercise">
+                                <input hidden value="@exercise.id" name="id" />
+                                <button type="submit" class="btn btn-danger delete-btn"
+                                        data-id="@exercise.id" name="id">
+                                    Удалить
+                                </button>
+                            </form>
+                            </div>
+                        
                     </div>
                 </div>
             </div>

@@ -179,6 +179,7 @@ namespace MyTrainer.Controllers
             var model = new StartWorkoutViewModel
             {
                 AvailableExercises = _context.Exercise
+                    .Where(e => e.confirmed)
                    .Select(e => new ExerciseInfo
                    {
                        Id = e.id,
@@ -186,7 +187,9 @@ namespace MyTrainer.Controllers
                        Description = e.description,
                        HowToUrl = e.howToUrl,
                        calBurned = e.standatdCal
-                   }).ToList()
+                   })
+                   
+                   .ToList()
             };
             return View(model);
         }
@@ -411,7 +414,8 @@ namespace MyTrainer.Controllers
             var model = new AdminDashboardViewModel
             {
                 Users = _context.Users.Where(u => !u.EmailConfirmed).ToList(),
-                Exercises = _context.Exercise.ToList()
+                Exercises = _context.Exercise.Where(e => e.confirmed == true).ToList(),
+                NotConfirmed = _context.Exercise.Where(e => e.confirmed == false).ToList()
             };
 
             return View(model);
@@ -431,7 +435,20 @@ namespace MyTrainer.Controllers
             
             return RedirectToAction("AdminPanel");
         }
+        [HttpPost]
+        public async Task<IActionResult> ConfirmExercise(int id)
+        {
+            var exercise = _context.Exercise.Where(u => u.id == id).FirstOrDefault();
+            if (exercise != null && !exercise.confirmed)
+            {
+                exercise.confirmed = true;
+                _context.Exercise.Update(exercise);
+                _context.SaveChanges();
+            }
 
+
+            return RedirectToAction("AdminPanel");
+        }
         [HttpPost]
         
         public async Task<IActionResult> DeleteExercise(int id)
@@ -444,10 +461,22 @@ namespace MyTrainer.Controllers
             }
             return RedirectToAction("AdminPanel");
         }
+        [HttpPost]
 
+        public async Task<IActionResult> DeleteNotConfirm(int id)
+        {
+            var exercise = await _context.Exercise.FindAsync(id);
+            if (exercise != null)
+            {
+                _context.Exercise.Remove(exercise);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("AdminPanel");
+        }
         [HttpPost]
         public async Task<IActionResult> EditExercise(Exercise model)
         {
+            model.confirmed = true;
             _context.Exercise.Update(model);
             _context.SaveChanges();
             return RedirectToAction("AdminPanel");

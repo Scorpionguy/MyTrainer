@@ -14,7 +14,7 @@ namespace MyTrainer.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Help()
         {
             return View();
         }
