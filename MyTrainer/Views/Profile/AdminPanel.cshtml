@@ -54,7 +54,7 @@
     <div class="modal fade" id="editExerciseModal" tabindex="-1" aria-labelledby="editExerciseModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="EditExercise" method="post">
+                <form id="EditExercise" asp-action="EditExercise" asp-controller="Profile" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="editExerciseModalLabel">Редактировать упражнение</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
@@ -63,23 +63,23 @@
                         <input type="hidden" name="Id" id="editExerciseId" />
                         <div class="mb-3">
                             <label for="editExerciseName" class="form-label">Название</label>
-                            <input type="text" class="form-control" id="editExerciseName" name="Name" required />
+                            <input type="text" class="form-control" id="editExerciseName" name="name" required />
                         </div>
                         <div class="mb-3">
                             <label for="editExerciseDescription" class="form-label">Описание</label>
-                            <textarea class="form-control" id="editExerciseDescription" name="Description" rows="3"></textarea>
+                            <textarea class="form-control" id="editExerciseDescription" name="description" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="editExerciseCal" class="form-label">Калории</label>
-                            <input type="number" class="form-control" id="editExerciseCal" name="CalBurned" required />
+                            <input type="number" class="form-control" id="editExerciseCal" name="standatdCal" required />
                         </div>
                         <div class="mb-3">
                             <label for="editTargetMuscle" class="form-label">Основная мышца</label>
-                            <input type="text" class="form-control" id="editTargetMuscle" name="target" required />
+                            <input type="text" class="form-control" id="editTargetMuscle" name="targetMuscle" required />
                         </div>
                         <div class="mb-3">
                             <label for="editHowToUrl" class="form-label">Ссылка на выполнение</label>
-                            <input type="text" class="form-control" id="editHowToUrl" name="url" required />
+                            <input type="text" class="form-control" id="editHowToUrl" name="howToUrl" required />
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -97,7 +97,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">@exercise.name</h5>
-                        <p class="card-text">@exercise.description</p>
+                        <p class="card-text text-truncate w-75">@exercise.description</p>
                         <button class="btn btn-primary edit-btn"
                                 data-id="@exercise.id"
                                 data-name="@exercise.name"
@@ -107,10 +107,13 @@
                                 data-targetMuscle="@exercise.targetMuscle">
                             Редактировать
                         </button>
-                        <button class="btn btn-danger delete-btn"
-                                data-id="@exercise.id">
-                            Удалить
-                        </button>
+                        <form id="deleteExercise" asp-controller="Profile" asp-action="DeleteExercise">
+                            <input hidden value="@exercise.id" name="id"/>
+                            <button type="submit" class="btn btn-danger delete-btn"
+                                    data-id="@exercise.id" name="id">
+                                Удалить
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -321,7 +321,14 @@ namespace MyTrainer.Controllers
 			}
 			_context.Users.Update(_user);
 			_context.SaveChanges();
-			TempData["DataSuccess"] = "Данные успешно обновлены!";
+            var modelWeight = new Weight_history
+            {
+                userId = userId,
+                weight = startChange,
+                updateTime = DateTime.UtcNow
+            };
+            _context.WeightHistory.Add(modelWeight);
+            TempData["DataSuccess"] = "Данные успешно обновлены!";
 			return RedirectToAction("Personal");
 		}
 
@@ -426,6 +433,7 @@ namespace MyTrainer.Controllers
         }
 
         [HttpPost]
+        
         public async Task<IActionResult> DeleteExercise(int id)
         {
             var exercise = await _context.Exercise.FindAsync(id);
@@ -438,7 +446,7 @@ namespace MyTrainer.Controllers
         }
 
         [HttpPost]
-        public IActionResult EditExercise(Exercise model)
+        public async Task<IActionResult> EditExercise(Exercise model)
         {
             _context.Exercise.Update(model);
             _context.SaveChanges();

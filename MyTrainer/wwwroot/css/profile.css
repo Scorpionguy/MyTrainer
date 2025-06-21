@@ -152,7 +152,7 @@ canvas {
         cursor: pointer;
     }
 /* Карточки */
-.card {
+.card, info-card {
     background: var(--fade-light);
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);

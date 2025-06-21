@@ -1,0 +1,3 @@
+﻿1) Переписать строку подключения под mytrainer
+2) Включить прослушивание порта 5000
+3) На всякий pg_dump -U postgres -h localhost -p 5432 -d mytrainer -f backup.sql

@@ -15,56 +15,60 @@
 	<link rel="stylesheet" href="~/MyTrainer.styles.css" asp-append-version="true" />
 </head>
 <body>
-	<h2>Регистрация</h2>
+	
+	<div class="row justify-content-center">
+		<div class="col-lg-6 col-md-8" style="max-width:400px;">
+			<h2>Регистрация</h2>
+			<form asp-action="Register" method="post">
+				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-	<form asp-action="Register" method="post">
-		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+				<div class="mb-3">
+					<label asp-for="Email" class="form-label">Почта</label>
+					<input asp-for="Email" class="form-control form-control-sm" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
 
-		<div class="mb-3">
-			<label asp-for="Email">Почта</label>
-			<input asp-for="Email" class="form-control" />
-			<span asp-validation-for="Email" class="text-danger"></span>
+				<div class="mb-3">
+					<label asp-for="Password" class="form-label">Пароль</label>
+					<input asp-for="Password" class="form-control form-control-sm" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="ConfirmPassword" class="form-label">Подтвердите пароль</label>
+					<input asp-for="ConfirmPassword" class="form-control form-control-sm" />
+					<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Name" class="form-label">Имя</label>
+					<input asp-for="Name" class="form-control form-control-sm" />
+					<span asp-validation-for="Name" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="Lastname" class="form-label">Фамилия</label>
+					<input asp-for="Lastname" class="form-control form-control-sm" />
+					<span asp-validation-for="Lastname" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="BirthDate" class="form-label">Дата рождения</label>
+					<input asp-for="BirthDate" type="date" min="1900-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")" class="form-control form-control-sm" />
+					<span asp-validation-for="BirthDate" class="text-danger"></span>
+				</div>
+
+				<div class="mb-3">
+					<label asp-for="PhoneNumber" class="form-label">Номер телефона</label>
+					<input asp-for="PhoneNumber" id="phone" class="form-control form-control-sm" />
+					<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+				</div>
+
+				<button type="submit" class="btn btn-primary btn-sm">Зарегистрироваться</button>
+			</form>
 		</div>
+	</div>
 
-		<div class="mb-3">
-			<label asp-for="Password">Пароль</label>
-			<input asp-for="Password" class="form-control" />
-			<span asp-validation-for="Password" class="text-danger"></span>
-		</div>
-
-		<div class="mb-3">
-			<label asp-for="ConfirmPassword">Подтвердите пароль</label>
-			<input asp-for="ConfirmPassword" class="form-control" />
-			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-		</div>
-
-		<div class="mb-3">
-			<label asp-for="Name">Имя</label>
-			<input asp-for="Name" class="form-control" />
-			<span asp-validation-for="Name" class="text-danger"></span>
-		</div>
-
-		<div class="mb-3">
-			<label asp-for="Lastname">Фамилия</label>
-			<input asp-for="Lastname" class="form-control" />
-			<span asp-validation-for="Lastname" class="text-danger"></span>
-		</div>
-
-		<div class="mb-3">
-			<label asp-for="BirthDate">Дата рождения</label>
-			<input asp-for="BirthDate" class="form-control" type="date" min="1900-01-01" max="@DateTime.Today.ToString("yyyy-MM-dd")"/>
-			<span asp-validation-for="BirthDate" class="text-danger"></span>
-		</div>
-
-		<div class="mb-3">
-			<label asp-for="PhoneNumber">Номер телефона</label>
-			<input asp-for="PhoneNumber" type="text" id="phone" class="form-control" />
-			<span asp-validation-for="PhoneNumber" class="text-danger"></span>
-		</div>
-
-		<button type="submit" class="btn btn-primary">Зарегистрироваться</button>
-		
-	</form>
 	<script>
 		document.addEventListener("DOMContentLoaded", function () {
 			const input = document.getElementById("phone");

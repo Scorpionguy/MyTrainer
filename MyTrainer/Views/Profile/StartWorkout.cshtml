@@ -63,7 +63,7 @@
                                     <div class="card exercise-option" data-id="@exercise.Id" data-cal="@exercise.calBurned">
                                         <div class="card-body">
                                             <h5 class="card-title">@exercise.Name</h5>
-                                            <p class="card-text">@exercise.Description</p>
+                                            <p class="card-text text-truncate w-75">@exercise.Description</p>
                                             <input type="hidden" id="SelectedExerciseId" name="SelectedExerciseId" />
                                             <input type="hidden" id="SelectedExerciseName" />
                                             <input type="hidden" id="SelectedExerciseCal" />
@@ -99,7 +99,7 @@
                 <button type="button" class="btn btn-info" onclick="showInstruction()">Инструкция</button>
             </div>
 
-            <div id="instructionArea" class="p-3 border rounded bg-light mb-3 d-none">
+            <div id="instructionArea" class="card">
                 <h5>Инструкция</h5>
                 <p id="instructionText"></p>
                 <a id="instructionLink" href="#" target="_blank" class="btn btn-sm btn-outline-primary mt-2" onclick="showInstruction()">Открыть видео</a>

@@ -11,54 +11,53 @@
     <link rel="stylesheet" href="~/MyTrainer.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <div b-aa6kh5l8jn="" class="container">
-        <main b-aa6kh5l8jn="" role="main" class="pb-3">
-            <h1>Войти в учетную запись</h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <section>
-                        <form asp-action="Login" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            @* сделать чтоб всё поцентру а другие способы авторизации под кнопкой *@
-                            <div class="mb-3">
-                                <label asp-for="Email" class="form-label"></label>
-                                <input asp-for="Email" class="form-control" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8" style="max-width:400px;">
+            <h1 class="text-center mb-4">Войти в учётную запись</h1>
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                            <div class="mb-3">
-                                <label asp-for="Password" class="form-label"></label>
-                                <input asp-for="Password" class="form-control" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-
-                            <div class="form-check mb-3">
-                                <input asp-for="RememberMe" class="form-check-input" />
-                                <label asp-for="RememberMe" class="form-check-label"></label>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Войти</button>
-                        </form>
-                    </section>
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label visually-hidden">Почта</label>
+                    <input asp-for="Email"
+                           class="form-control form-control-sm"
+                           placeholder="Почта" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="col-md-6 col-md-offset-2">
-                    <section>
-                        <h3>Использовать сторонний сервис для авторизации.</h3>
-                        <hr>
-                        <div>
-                           @*  <p>
-                                There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">
-                                    article
-                                    about setting up this ASP.NET application to support logging in via external services
-                                </a>.
-                            </p> *@
-                        </div>
-                    </section>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label visually-hidden">Пароль</label>
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control form-control-sm"
+                           placeholder="Пароль" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-            </div>
 
+                <div class="form-check mb-3">
+                    <input asp-for="RememberMe"
+                           class="form-check-input"
+                           id="rememberMe" />
+                    <label asp-for="RememberMe"
+                           class="form-check-label">
+                        Запомнить меня
+                    </label>
+                </div>
 
-        </main>
+                <div class="d-grid">
+                    <button type="submit"
+                            class="btn btn-primary btn-sm">
+                        Войти
+                    </button>
+                </div>
+
+                <div class="text-center mt-3">
+                    <!-- Здесь можно разместить иконки/ссылки на соцсети или другие способы -->
+                    <a href="#" class="d-block mb-1">Войти через Google</a>
+                    <a href="#" class="d-block">Войти через Facebook</a>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="/lib/jquery/dist/jquery.min.js"></script>
