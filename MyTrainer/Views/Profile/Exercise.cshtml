@@ -134,8 +134,17 @@
                 @if (hasWorkouts && Workout?.LatestWorkout != null)
                 {
                     <p class="card-text">
+                        
                         <strong>Дата:</strong> @Workout.LatestWorkout.startDateTime.ToString("dd MMMM yyyy HH:mm", new System.Globalization.CultureInfo("ru-RU")) <br />
-                        <strong>Длительность:</strong> @(Math.Round((Workout.LatestWorkout.endDateTime - Workout.LatestWorkout.startDateTime).TotalMinutes, 2)) минут <br />
+                        <strong>Длительность:</strong> @(
+                    Math.Round(
+                    (Workout.LatestWorkout.endDateTime
+                    - Workout.LatestWorkout.startDateTime)
+                    .Duration()                // делает TimeSpan ≥ 0
+                    .TotalMinutes, 2            // превращает в double
+                    )
+                    ) минут <br />
+                        
                         <strong>Сожжено калорий:</strong> @Workout.LatestWorkout.totalCal ккал <br />
                         @if (!string.IsNullOrWhiteSpace(Workout.LatestWorkout.coment))
                         {

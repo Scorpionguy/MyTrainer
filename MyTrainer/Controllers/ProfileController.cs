@@ -6,6 +6,7 @@ using System.Security.Claims;
 using MyTrainer.Data;
 using MyTrainer.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace MyTrainer.Controllers
@@ -110,7 +111,7 @@ namespace MyTrainer.Controllers
             _context.Exercise.Add(exerciseModel);
             await _context.SaveChangesAsync();
             TempData["AddedExercise"] = "Новое упражнение успешно добавлено!";
-            return RedirectToAction("Main", "Profile");
+            return RedirectToAction("Exercise", "Profile");
         }
 
         public List<Activity_history> getLastActivities(string userId)
@@ -324,13 +325,18 @@ namespace MyTrainer.Controllers
 			}
 			_context.Users.Update(_user);
 			_context.SaveChanges();
-            var modelWeight = new Weight_history
+            if (_user.weightHistory.IsNullOrEmpty())
             {
-                userId = userId,
-                weight = startChange,
-                updateTime = DateTime.UtcNow
-            };
-            _context.WeightHistory.Add(modelWeight);
+                var modelWeight = new Weight_history
+                {
+                    userId = userId,
+                    weight = startChange,
+                    updateTime = DateTime.UtcNow
+                };
+                _context.WeightHistory.Add(modelWeight);
+                _context.SaveChanges();
+            }
+            
             TempData["DataSuccess"] = "Данные успешно обновлены!";
 			return RedirectToAction("Personal");
 		}
